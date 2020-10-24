@@ -10,4 +10,4 @@ class Base(View):
     def get(self, request):
         print('test2')
 
-        render_to_response(request, self.TEMPLATE)
+        return render_to_response(request, self.TEMPLATE)
