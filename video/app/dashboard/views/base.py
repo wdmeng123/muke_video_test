@@ -8,6 +8,5 @@ class Base(View):
     TEMPLATE = 'dashboard/base.html'
 
     def get(self, request):
-        print('test2')
 
         return render_to_response(request, self.TEMPLATE)

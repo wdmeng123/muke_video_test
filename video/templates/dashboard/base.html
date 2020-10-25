@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Base</title>
+    <title>${self.title()}</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
+    ${self.css()}
 </head>
 <body>
-
+${self.content()}
 </body>
+<script src="/static/js/jquery-1.12.4.min.js"></script>
+<script src="/static/js/bootstrap.js/bootstrap.min.js"></script>
+${self.js()}
 </html>
+
+<%def name="title()"></%def>
+<%def name="js()"></%def>
+<%def name="css()"></%def>
+<%def name="content()"></%def>
