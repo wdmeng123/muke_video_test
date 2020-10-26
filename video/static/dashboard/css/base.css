@@ -1,0 +1,43 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#base-area {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.side-menu {
+    height: 100%;
+    width: 9.5%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    list-style: none;
+    padding-left: 0;
+}
+
+.side-menu > li {
+    text-align: center;
+    width: 100%;
+    line-height: 32px;
+    cursor: pointer;
+    border: 1px solid #5e5e5e;
+}
+
+.base-content {
+    width: 90.5%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-left: 1px solid #cccccc;
+}
