@@ -3,9 +3,10 @@
 from mako.lookup import TemplateLookup
 from django.template import RequestContext
 from django.conf import settings
+from django.middleware.csrf import get_token
 from django.template.context import Context
 from django.http import HttpResponse
-from django.shortcuts import render
+# from django.shortcuts import render
 
 
 def render_to_response(request, template, data=None):
@@ -33,10 +34,11 @@ def render_to_response(request, template, data=None):
     for d in context_instance:
         result.update(d)
 
-    # result['request'] = request
+    result['request'] = request
+    request.META["CSRF_COOKIE"] = get_token(request)
     result['csrf_token'] = ('<input type="hidden" id="django-csrf-token"'
                             ' name="csrfmiddlewaretoken" value={0}'
-                            ' />'.format(request.META.get('CSRF_COOKIE', '')))
+                            ' />'.format(request.META['CSRF_COOKIE']))
 
     return HttpResponse(mako_template.render(**result))
 
