@@ -6,9 +6,9 @@
 
 from django.views.generic import View
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from app.libs.base_render import render_to_response
-from django.shortcuts import redirect
+from django.shortcuts import redirect, reverse
 
 
 class Login(View):
@@ -16,10 +16,9 @@ class Login(View):
 
     def get(self, request):
         data = {'error': ''}
-        print(dir(request.user))
         if request.user.is_authenticated:
             return redirect('/dashboard/')
-        return render_to_response(request, self.template, data)
+        return render_to_response(request, self.template, data=data)
 
     def post(self, request):
         username = request.POST.get('username')
@@ -35,10 +34,28 @@ class Login(View):
 
         if not user:
             data['error'] = '密码错误！！'
-            return render_to_response(request, self.template, data)
+            return render_to_response(request, self.template, data=data)
 
         if not user.is_superuser:
             data['error'] = '您无权登录管理员页面！'
-            return render_to_response(request, self.template, data)
+            return render_to_response(request, self.template, data=data)
         login(request, user)
         return redirect('/dashboard/')
+
+
+class Logout(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect(reverse('dashboard_login'))
+
+
+class AdminManager(View):
+    template = 'dashboard/auth/admin.html'
+
+    def get(self, request):
+
+        users = User.objects.filter(is_superuser=True)
+        data = {'users': users}
+        return render_to_response(request, self.template, data=data)
+
