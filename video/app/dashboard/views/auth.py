@@ -59,3 +59,14 @@ class AdminManager(View):
         data = {'users': users}
         return render_to_response(request, self.template, data=data)
 
+
+class UpdateAdminStatus(View):
+
+    def get(self, request):
+
+        status = request.GET.get('status', 'on')
+        _status = True if status == 'on' else False
+
+        request.user.is_superuser = _status
+        request.user.save()
+        return redirect(reverse('admin_manager'))

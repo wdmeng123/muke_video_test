@@ -14,11 +14,8 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.8 (django-2.1-L7h-xzvm)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (django2.1.2-btMl48e-)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-  </component>
-  <component name="PackageRequirementsSettings">
-    <option name="versionSpecifier" value="大于或等于 (&gt;=x.y.z)" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Mako" />
