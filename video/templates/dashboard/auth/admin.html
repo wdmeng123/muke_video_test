@@ -1,29 +1,40 @@
 <%inherit file="../base.html" />
 <%! from django.shortcuts import reverse %>
 <%def name="content()">
-    <h1>管理员模块</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>用户名</th>
-                <th>状态</th>
-                <th>创建时间</th>
-                <th>编辑</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                % for user in users:
-                    <td>${user.username}</td>
-                    <td>${user.is_superuser}</td>
-                    <td>${user.date_joined}</td>
-                    % if user.is_superuser:
-                        <td><a href="${reverse('update_manager')}?status='off'">撤销管理员</a></td>
-                    % else:
-                        <td><a href="${reverse('update_manager')}?status='on'">设为管理员</a></td>
-                    % endif
-                % endfor
-            </tr>
-        </tbody>
-    </table>
+<%
+prev_page = '{}?page={}'.format(reverse('admin_manager'), page_num - 1)
+next_page = '{}?page={}'.format(reverse('admin_manager'), page_num + 1)
+%>
+<h1>管理员列表</h1>
+%if page_num > 1:
+    <a href="${prev_page}">上一页</a>|
+%endif
+<span>当前页:${page_num}</span>
+%if page_num < total:
+    |<a href="${next_page}">下一页</a>
+%endif
+<table class="table">
+    <thead>
+        <tr>
+            <th>用户名</th>
+            <th>管理员?</th>
+            <th>创建时间</th>
+            <th>设置</th>
+        </tr>
+    </thead>
+    <tbody>
+        % for user in users:
+        <tr>
+            <td>${user.username}</td>
+            <td>${user.is_superuser}</td>
+            <td>${user.date_joined}</td>
+            % if user.is_superuser:
+                <td><a href="${reverse('admin_update')}?status=off">停用</a></td>
+            % else:
+                <td><a href="${reverse('admin_update')}?status=on">启用</a></td>
+            % endif
+        </tr>
+        % endfor
+    </tbody>
+</table>
 </%def>

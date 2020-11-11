@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from app.libs.base_render import render_to_response
 from django.shortcuts import redirect, reverse
+from django.core.paginator import Paginator
 
 
 class Login(View):
@@ -54,19 +55,24 @@ class AdminManager(View):
     template = 'dashboard/auth/admin.html'
 
     def get(self, request):
-
-        users = User.objects.filter(is_superuser=True)
-        data = {'users': users}
+        # users = User.objects.filter(is_superuser=True)
+        users = User.objects.all()
+        page = request.GET.get('page', 1)
+        p = Paginator(users, 1)
+        total_page = p.num_pages
+        current_page = p.get_page(int(page)).object_list
+        if int(page) <= 1:
+            page = 1
+        data = {'users': current_page, 'total': total_page, 'page_num': int(page)}
         return render_to_response(request, self.template, data=data)
 
 
 class UpdateAdminStatus(View):
 
     def get(self, request):
-
         status = request.GET.get('status', 'on')
         _status = True if status == 'on' else False
-
         request.user.is_superuser = _status
         request.user.save()
+
         return redirect(reverse('admin_manager'))
